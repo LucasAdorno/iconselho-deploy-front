@@ -8,7 +8,7 @@ import api from '../../services/api';
 import './styles.css';
 
 export default function Logon(){
-    const [id, setId] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const history = useHistory();
 
@@ -16,9 +16,9 @@ export default function Logon(){
         e.preventDefault();
 
         try {
-            const response = await api.post('sessions', { id, password });
+            const response = await api.post('sessions', { email, password });
 
-            localStorage.setItem('userId', id);
+            localStorage.setItem('email', email);
             localStorage.setItem('userName', response.data.name);
 
             history.push('/profile');
@@ -39,9 +39,9 @@ export default function Logon(){
                     
                     <input 
                     required
-                    placeholder="Sua ID"
-                    value={id}
-                    onChange={e => setId(e.target.value)}
+                    placeholder="Sua email"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
                     />
                     <input 
                     required

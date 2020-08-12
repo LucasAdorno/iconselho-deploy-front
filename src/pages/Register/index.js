@@ -29,7 +29,7 @@ export default function Register() {
 
         try {
             api.post('users', data);
-            alert(`Seu ID de acesso foi enviado para seu email.`);
+            alert(`Cadastro concluido!`);
 
             history.push('/');
         } catch (err) {
