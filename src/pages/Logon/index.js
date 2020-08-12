@@ -37,11 +37,15 @@ export default function Logon(){
             <section className="form">
                 <form onSubmit={handleLogin}>
                     
-                    <input placeholder="Sua ID"
+                    <input 
+                    required
+                    placeholder="Sua ID"
                     value={id}
                     onChange={e => setId(e.target.value)}
                     />
-                    <input placeholder="Senha"
+                    <input 
+                    required
+                    placeholder="Senha"
                     type='password'
                     value={password}
                     onChange={e => setPassword(e.target.value)}

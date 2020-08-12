@@ -44,15 +44,21 @@ export default function Register() {
                     <img src={iconLogo} alt="logo icon-lab " />
                 </div>
                 <form onSubmit={handleRegister}>
-                    <input placeholder="Nome de usuário"
+                    <input 
+                        required
+                        placeholder="Nome de usuário"
                         value={name}
                         onChange={e => setName(e.target.value)}
                     />
-                    <input type="email" placeholder=" E-mail"
+                    <input 
+                        required
+                        type="email" placeholder=" E-mail"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                     />
-                    <input type="password" placeholder="Senha"
+                    <input 
+                        required
+                        type="password" placeholder="Senha"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                     />

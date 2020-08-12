@@ -63,11 +63,15 @@ export default function Profile() {
           <h1 id="text-credencials">Por favor, insira as suas credenciais do SIAC</h1>
           <section className="form">
             <form onSubmit={handleSubmit}>
-              <input placeholder="CPF"
+              <input
+                required
+                placeholder="CPF"
                 value={cpf}
                 onChange={e => setCpf(e.target.value)}
               />
-              <input placeholder="Senha"
+              <input 
+                required
+                placeholder="Senha"
                 type='password'
                 value={password}
                 onChange={e => setPassword(e.target.value)}
@@ -77,7 +81,7 @@ export default function Profile() {
             </form>
             <div className="footer-profile-infos">
               <h1>i</h1>
-              <a id="credencials-link" className="import-link">Por que pedimos as suas credenciais?</a>
+              <p id="credencials-link" className="import-link">Por que pedimos as suas credenciais?</p>
             </div>
           </section>
         </div>
