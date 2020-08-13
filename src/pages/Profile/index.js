@@ -10,7 +10,7 @@ import './styles.css';
 export default function Profile() {
 
   const history = useHistory();
-  const userId = localStorage.getItem('userId');
+  const email = localStorage.getItem('email');
   const userName = localStorage.getItem('userName');
   const [cpf, setCpf] = useState('');
   const [password, setPassword] = useState('');
@@ -21,11 +21,11 @@ export default function Profile() {
   useEffect(() => {
     api.get('profile', {
       headers: {
-        Authorization: userId,
+        Authorization: email,
       }
     }).then(response => {
     })
-  }, [userId]);
+  }, [email]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -33,7 +33,7 @@ export default function Profile() {
     const data = {
       cpf,
       password,
-      userId
+      email
     };
     buttonRef.current.innerText = '.  .  .';
     buttonRef.current.setAttribute('disabled', 'true');
@@ -65,7 +65,7 @@ export default function Profile() {
             <form onSubmit={handleSubmit}>
               <input
                 required
-                placeholder="CPF"
+                placeholder="CPF" 
                 value={cpf}
                 onChange={e => setCpf(e.target.value)}
               />
