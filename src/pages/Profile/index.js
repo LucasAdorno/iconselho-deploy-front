@@ -17,6 +17,7 @@ export default function Profile() {
   const [dados, setDados] = useState();
   const formRef = useRef();
   const buttonRef = useRef();
+  const modalRef = useRef();
 
   useEffect(() => {
     api.get('profile', {
@@ -25,12 +26,12 @@ export default function Profile() {
       }
     }).then(response => {
     })
-    
-    if (localStorage.getItem('siac') !== 'null'){
+
+    if (localStorage.getItem('siac') !== 'null') {
       setDados(JSON.parse(localStorage.getItem('siac')));
       formRef.current.innerHTML = '<div></div> '
     }
-  
+
   }, [email]);
 
   async function handleSubmit(e) {
@@ -42,14 +43,17 @@ export default function Profile() {
       email
     };
     buttonRef.current.innerText = '.  .  .';
-    buttonRef.current.setAttribute('disabled', 'true');
 
-    await api.post('profile', data).then( res => {
+    await api.post('profile', data).then(res => {
       setDados(res.data);
+      buttonRef.current.innerText = 'Importar';
+      if (modalRef) {
+        modalRef.current.style.visibility = 'hidden';
+      }
       formRef.current.innerHTML = '<div></div> '
-    }).catch( err => {
+    }).catch(err => {
       alert('Falha ao importar os dados!')
-      buttonRef.current.innerText = 'Entrar';
+      buttonRef.current.innerText = 'Importar';
       buttonRef.current.removeAttribute('disabled');
     });
   }
@@ -72,11 +76,11 @@ export default function Profile() {
             <form onSubmit={handleSubmit}>
               <input
                 required
-                placeholder="CPF" 
+                placeholder="CPF"
                 value={cpf}
                 onChange={e => setCpf(e.target.value)}
               />
-              <input 
+              <input
                 required
                 placeholder="Senha"
                 type='password'
@@ -94,29 +98,56 @@ export default function Profile() {
         </div>
       </div>
       {dados ?
-       <div>
-        <ProfileCard dados={{...dados}} />
-        <CategoryCard 
-        text="obrigatórias da sua grade"
-        bg={'#E38627'} 
-        title="Obrigatórias" hours={dados.chEspecific[3]} percent={dados.percentObg} disciplines={dados.filterObg} />
-        <CategoryCard 
-        text={"com o código: DAN, EBA, MUS, LET, TEA ou que sejam "+dados.relativeNat[0]}
-        bg={'#C13C37'} 
-        title="Artisticas" hours={dados.chEspecific[0]} percent={dados.percentArts} disciplines={dados.filterArts} />
-        <CategoryCard 
-        text={"com o código: ARQ, BIO, ENF, ENG, FAR, FIS, FOF GEO, ICS, MAT, MED, MEV, QUI ou que sejam "+dados.relativeNat[2]}
-        bg={'#33e3ee'} 
-        title="Cientifícas" hours={dados.chEspecific[1]} percent={dados.percentCientific} disciplines={dados.filterCientific} />
-        <CategoryCard 
-        text={"com o código: ADM, COM, DIR, ECO, EDC, FCC, FCH, ICI, IPS ou que sejam "+dados.relativeNat[1]}
-        bg={'#6A2135'} 
-        title="Humanisticas" hours={dados.chEspecific[2]} percent={dados.percentHumanity} disciplines={dados.filterHumanity} />
-        <CategoryCard 
-        text="de qualquer instituto da UFBA"
-        bg={'#33ee66'} 
-        title="Livres" hours={dados.chEspecific[4]} percent={dados.percentFree} disciplines={dados.freeComponents} />
-        </div> : <></>
+        <>
+          <button id='open-modal' onClick={() => modalRef.current.style.visibility = 'visible'}>Importar dados novamente</button>
+          <div>
+            <ProfileCard dados={{ ...dados }} />
+            <CategoryCard
+              text="obrigatórias da sua grade"
+              bg={'#E38627'}
+              title="Obrigatórias" hours={dados.chEspecific[3]} percent={dados.percentObg} disciplines={dados.filterObg} />
+            <CategoryCard
+              text={"com o código: DAN, EBA, MUS, LET, TEA ou que sejam " + dados.relativeNat[0]}
+              bg={'#C13C37'}
+              title="Artisticas" hours={dados.chEspecific[0]} percent={dados.percentArts} disciplines={dados.filterArts} />
+            <CategoryCard
+              text={"com o código: ARQ, BIO, ENF, ENG, FAR, FIS, FOF GEO, ICS, MAT, MED, MEV, QUI ou que sejam " + dados.relativeNat[2]}
+              bg={'#33e3ee'}
+              title="Cientifícas" hours={dados.chEspecific[1]} percent={dados.percentCientific} disciplines={dados.filterCientific} />
+            <CategoryCard
+              text={"com o código: ADM, COM, DIR, ECO, EDC, FCC, FCH, ICI, IPS ou que sejam " + dados.relativeNat[1]}
+              bg={'#6A2135'}
+              title="Humanisticas" hours={dados.chEspecific[2]} percent={dados.percentHumanity} disciplines={dados.filterHumanity} />
+            <CategoryCard
+              text="de qualquer instituto da UFBA"
+              bg={'#33ee66'}
+              title="Livres" hours={dados.chEspecific[4]} percent={dados.percentFree} disciplines={dados.freeComponents} />
+          </div>
+          <section id='modal'
+            ref={modalRef}
+          >
+            <form id='modal-form' onSubmit={handleSubmit}>
+
+              <h1>Importe novamente seus dados do SIAC!</h1>
+              <input
+                required
+                placeholder="CPF"
+                value={cpf}
+                onChange={e => setCpf(e.target.value)}
+              />
+              <input
+                required
+                placeholder="Senha"
+                type='password'
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
+              <button className="button" type="submit" ref={buttonRef}>Importar</button>
+              <button id='modal-close'
+                onClick={() => modalRef.current.style.visibility = 'hidden'}
+              >Fechar</button>
+            </form>
+          </section> </> : <></>
       }
     </>);
 }
