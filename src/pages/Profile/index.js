@@ -128,7 +128,7 @@ export default function Profile() {
           <section id='modal'
             ref={modalRef}
           >
-            <form id='modal-form' onSubmit={handleSubmit}>
+            <div id='modal-form'>
 
               <h1>Importe novamente seus dados do SIAC!</h1>
               <input
@@ -144,11 +144,14 @@ export default function Profile() {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
               />
-              <button className="button" type="submit" ref={buttonRef}>Importar</button>
+              <button className="button" 
+              onClick={(e) => handleSubmit(e)}
+              type="submit" 
+              ref={buttonRef}>Importar</button>
               <button id='modal-close'
                 onClick={() => modalRef.current.style.visibility = 'hidden'}
               >Fechar</button>
-            </form>
+            </div>
           </section> </> : <></>
       }
     </>);
