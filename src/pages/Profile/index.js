@@ -53,6 +53,8 @@ export default function Profile() {
         modalRef.current.style.visibility = 'hidden';
       }
       formRef.current.innerHTML = '<div></div> '
+      setCpf('');
+      setPassword('');
     }).catch(err => {
       alert('Falha ao importar os dados!')
       buttonRef.current.innerText = 'Importar';
