@@ -14,7 +14,7 @@ export default function Profile() {
   const userName = localStorage.getItem('userName');
   const [cpf, setCpf] = useState('');
   const [password, setPassword] = useState('');
-  const [dados, setDados] = useState('');
+  const [dados, setDados] = useState();
   const formRef = useRef();
   const buttonRef = useRef();
 
@@ -25,6 +25,12 @@ export default function Profile() {
       }
     }).then(response => {
     })
+    
+    if (localStorage.getItem('siac') !== 'null'){
+      setDados(JSON.parse(localStorage.getItem('siac')));
+      formRef.current.innerHTML = '<div></div> '
+    }
+  
   }, [email]);
 
   async function handleSubmit(e) {
@@ -87,7 +93,7 @@ export default function Profile() {
           </section>
         </div>
       </div>
-      {dados.filterObg ?
+      {dados ?
        <div>
         <ProfileCard dados={{...dados}} />
         <CategoryCard 
