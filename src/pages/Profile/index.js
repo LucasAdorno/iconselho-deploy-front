@@ -43,6 +43,8 @@ export default function Profile() {
       email
     };
     buttonRef.current.innerText = '.  .  .';
+    buttonRef.current.setAttribute('disabled', 'true');
+
 
     await api.post('profile', data).then(res => {
       setDados(res.data);
