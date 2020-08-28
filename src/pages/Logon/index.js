@@ -9,17 +9,18 @@ import './styles.css';
 
 export default function Logon(){
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [info, setInfo] = useState('');
     const history = useHistory();
 
     async function handleLogin(e) {
         e.preventDefault();
 
         try {
-            const response = await api.post('sessions', { email, password });
+            const response = await api.post('sessions', { email, info });
 
             localStorage.setItem('email', email);
             localStorage.setItem('userName', response.data.name);
+            localStorage.setItem('siac', response.data.siac);
 
             history.push('/profile');
         } catch (err) {
@@ -47,8 +48,8 @@ export default function Logon(){
                     required
                     placeholder="Senha"
                     type='password'
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
+                    value={info}
+                    onChange={e => setInfo(e.target.value)}
                     />
     
                     <button id="login-button" className="button" type="submit">Entrar</button>
