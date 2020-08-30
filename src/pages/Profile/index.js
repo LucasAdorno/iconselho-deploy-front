@@ -45,6 +45,7 @@ export default function Profile() {
       buttonRef.current.innerText = '.  .  .';
       buttonRef.current.setAttribute('disabled', 'true');
       await api.post('profile', data).then(res => {
+        localStorage.setItem('siac', JSON.stringify(res.data));
         setDados(res.data);
         buttonRef.current.innerText = 'Importar';
         if (modalRef) {
