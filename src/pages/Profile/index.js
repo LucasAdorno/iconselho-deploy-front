@@ -12,54 +12,56 @@ export default function Profile() {
   const history = useHistory();
   const email = localStorage.getItem('email');
   const userName = localStorage.getItem('userName');
-  const [cpf, setCpf] = useState('');
-  const [password, setPassword] = useState('');
+  const [siac1, setSiac1] = useState('');
+  const [siac2, setSiac2] = useState('');
   const [dados, setDados] = useState();
   const formRef = useRef();
   const buttonRef = useRef();
   const modalRef = useRef();
 
   useEffect(() => {
-    api.get('profile', {
-      headers: {
-        Authorization: email,
+    const token = localStorage.getItem('token');
+    api.post('verify', { token }).then(() => {
+      if (localStorage.getItem('siac') !== 'null') {
+        setDados(JSON.parse(localStorage.getItem('siac')));
+        formRef.current.innerHTML = '<div></div> '
       }
-    }).then(response => {
     })
-
-    if (localStorage.getItem('siac') !== 'null') {
-      setDados(JSON.parse(localStorage.getItem('siac')));
-      formRef.current.innerHTML = '<div></div> '
-    }
-
+      .catch(() => {
+        localStorage.clear();
+        history.push('/')
+      })
   }, [email]);
 
   async function handleSubmit(e) {
     e.preventDefault();
-
-    const data = {
-      cpf,
-      password,
-      email
-    };
-    buttonRef.current.innerText = '.  .  .';
-    buttonRef.current.setAttribute('disabled', 'true');
-
-
-    await api.post('profile', data).then(res => {
-      setDados(res.data);
-      buttonRef.current.innerText = 'Importar';
-      if (modalRef) {
-        modalRef.current.style.visibility = 'hidden';
-      }
-      formRef.current.innerHTML = '<div></div> '
-      setCpf('');
-      setPassword('');
-    }).catch(err => {
-      alert('Falha ao importar os dados!')
-      buttonRef.current.innerText = 'Importar';
-      buttonRef.current.removeAttribute('disabled');
-    });
+    const token = localStorage.getItem('token');
+    api.post('verify', { token }).then(async () => {
+      const data = {
+        siac1,
+        siac2,
+        email
+      };
+      buttonRef.current.innerText = '.  .  .';
+      buttonRef.current.setAttribute('disabled', 'true');
+      await api.post('profile', data).then(res => {
+        setDados(res.data);
+        buttonRef.current.innerText = 'Importar';
+        if (modalRef) {
+          modalRef.current.style.visibility = 'hidden';
+        }
+        formRef.current.innerHTML = '<div></div> '
+        setSiac1('');
+        setSiac2('');
+      }).catch(err => {
+        alert('Falha ao importar os dados!')
+        buttonRef.current.innerText = 'Importar';
+        buttonRef.current.removeAttribute('disabled');
+      });
+    }).catch(()=>{
+      localStorage.clear();
+      history.push('/')
+    })
   }
 
   function handleLogout() {
@@ -81,15 +83,15 @@ export default function Profile() {
               <input
                 required
                 placeholder="CPF"
-                value={cpf}
-                onChange={e => setCpf(e.target.value)}
+                value={siac1}
+                onChange={e => setSiac1(e.target.value)}
               />
               <input
                 required
                 placeholder="Senha"
                 type='password'
-                value={password}
-                onChange={e => setPassword(e.target.value)}
+                value={siac2}
+                onChange={e => setSiac2(e.target.value)}
               />
 
               <button className="button" type="submit" ref={buttonRef}>Acessar</button>
@@ -136,20 +138,20 @@ export default function Profile() {
               <input
                 required
                 placeholder="CPF"
-                value={cpf}
-                onChange={e => setCpf(e.target.value)}
+                value={siac1}
+                onChange={e => setSiac1(e.target.value)}
               />
               <input
                 required
                 placeholder="Senha"
                 type='password'
-                value={password}
-                onChange={e => setPassword(e.target.value)}
+                value={siac2}
+                onChange={e => setSiac2(e.target.value)}
               />
-              <button className="button" 
-              onClick={(e) => handleSubmit(e)}
-              type="submit" 
-              ref={buttonRef}>Importar</button>
+              <button className="button"
+                onClick={(e) => handleSubmit(e)}
+                type="submit"
+                ref={buttonRef}>Importar</button>
               <button id='modal-close'
                 onClick={() => modalRef.current.style.visibility = 'hidden'}
               >Fechar</button>
