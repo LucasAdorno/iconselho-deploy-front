@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { FiPower } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
-
 import api from '../../services/api';
 import ProfileCard from '../../components/ProfileCard';
 import CategoryCard from '../../components/CategoryCard';
@@ -21,53 +20,75 @@ export default function Profile() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+
     api.post('verify', { token }).then(() => {
+
       if (localStorage.getItem('siac') !== 'null') {
+
         setDados(JSON.parse(localStorage.getItem('siac')));
         formRef.current.innerHTML = '<div></div> '
+
       }
+
+    }).catch(() => {
+
+      localStorage.clear();
+      history.push('/');
+
     })
-      .catch(() => {
-        localStorage.clear();
-        history.push('/')
-      })
-  }, [email]);
+  }, []);
 
   async function handleSubmit(e) {
+
     e.preventDefault();
     const token = localStorage.getItem('token');
+
     api.post('verify', { token }).then(async () => {
+
       const data = {
         siac1,
         siac2,
         email
       };
+
       buttonRef.current.innerText = '.  .  .';
       buttonRef.current.setAttribute('disabled', 'true');
+
       await api.post('profile', data).then(res => {
+
         localStorage.setItem('siac', JSON.stringify(res.data));
         setDados(res.data);
         buttonRef.current.innerText = 'Importar';
+
         if (modalRef) {
           modalRef.current.style.visibility = 'hidden';
         }
+
         formRef.current.innerHTML = '<div></div> '
+
         setSiac1('');
         setSiac2('');
-      }).catch(err => {
+
+      }).catch(() => {
+
         alert('Falha ao importar os dados!')
         buttonRef.current.innerText = 'Importar';
         buttonRef.current.removeAttribute('disabled');
+
       });
-    }).catch(()=>{
+    }).catch(() => {
+
       localStorage.clear();
       history.push('/')
+
     })
   }
 
   function handleLogout() {
+
     localStorage.clear();
     history.push('/');
+
   }
 
   return (

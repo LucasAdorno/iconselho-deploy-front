@@ -22,6 +22,7 @@ export default function Logon(){
             localStorage.setItem('userName', response.data.user.name);
             localStorage.setItem('siac', response.data.user.siac);
             localStorage.setItem('token', response.data.token);
+            
             history.push('/profile');
         } catch (err) {
             alert('Falha no login, tente novamente.');
