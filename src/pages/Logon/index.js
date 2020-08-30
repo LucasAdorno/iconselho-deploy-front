@@ -19,9 +19,9 @@ export default function Logon(){
             const response = await api.post('sessions', { email, info });
 
             localStorage.setItem('email', email);
-            localStorage.setItem('userName', response.data.name);
-            localStorage.setItem('siac', response.data.siac);
-
+            localStorage.setItem('userName', response.data.user.name);
+            localStorage.setItem('siac', response.data.user.siac);
+            localStorage.setItem('token', response.data.token);
             history.push('/profile');
         } catch (err) {
             alert('Falha no login, tente novamente.');
