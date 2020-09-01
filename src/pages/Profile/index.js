@@ -36,7 +36,7 @@ export default function Profile() {
       history.push('/');
 
     })
-  }, []);
+  }, [history]);
 
   async function handleSubmit(e) {
 
