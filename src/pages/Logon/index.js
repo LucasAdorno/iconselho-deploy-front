@@ -22,8 +22,7 @@ export default function Logon(){
             localStorage.setItem('userName', response.data.user.name);
             localStorage.setItem('siac', response.data.user.siac);
             localStorage.setItem('token', response.data.token);
-            
-            history.push('/profile');
+            response.data.user.check === 'true' ? history.push('/profile') : alert('Por favor, verifique sua caixa de email e confirme a sua conta');
         } catch (err) {
             alert('Falha no login, tente novamente.');
         }
@@ -52,7 +51,7 @@ export default function Logon(){
                     value={info}
                     onChange={e => setInfo(e.target.value)}
                     />
-    
+                    <Link id='recovery-pass' to='/recovery'>Esqueci minha senha</Link>
                     <button id="login-button" className="button" type="submit">Entrar</button>
 
                     <Link className="import-link" to="/register">
