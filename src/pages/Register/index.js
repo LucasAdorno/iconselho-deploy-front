@@ -29,7 +29,7 @@ export default function Register() {
 
         api.post('users', data)
             .then(() => {
-                alert(`Cadastro concluido!`);
+                alert(`Cadastro concluido! Verifique sua caixa de email para confirmar a conta.`);
                 history.push('/');
             })
             .catch(() => {
