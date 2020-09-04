@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import iconLogo from '../../assets/icon-logo.png';
 import { Container } from './styles';
 import api from '../../services/api';
@@ -22,6 +23,9 @@ export default function Recovery() {
         value={email}
         onChange={(e) => setEmail(e.target.value)} />
       <button onClick={() => HandleRecovery()} > Recuperar </button>
+      <Link to='/'>
+        <button style={{background: '#333'}} >Retornar</button>
+      </Link>
     </Container>
   );
 }
