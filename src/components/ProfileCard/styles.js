@@ -59,5 +59,12 @@ export const ChartBar = styled.div`
   width: 20px;
   height: ${props => props.size}px;
   background: ${props => props.bgcolor};
+  display: flex;
+  align-items: flex-end;
+
+  h4 {
+    position: relative;
+    bottom: -18px;
+  }
 
 `;
