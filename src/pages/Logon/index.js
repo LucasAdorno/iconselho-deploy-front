@@ -40,7 +40,7 @@ export default function Logon(){
                     
                     <input 
                     required
-                    placeholder="Sua email"
+                    placeholder="Seu email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     />
