@@ -53,8 +53,9 @@ export default function Profile() {
           .post("profile", data)
           .then((res) => {
             localStorage.setItem("siac", JSON.stringify(res.data));
-            setDados(res.data);
             buttonRef.current.innerText = "Importar";
+
+            setDados(res.data);
 
             // if (modalRef) {
             //   modalRef.current.style.visibility = "hidden";
@@ -65,8 +66,9 @@ export default function Profile() {
             setSiac1("");
             setSiac2("");
           })
-          .catch(() => {
+          .catch((err) => {
             alert("Falha ao importar os dados!");
+            console.log(err);
             buttonRef.current.innerText = "Importar";
             buttonRef.current.removeAttribute("disabled");
           });
